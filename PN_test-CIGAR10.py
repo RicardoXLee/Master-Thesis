@@ -26,16 +26,12 @@ def test(model, dataloader, criterion, device):
                 )
     return running_loss / len(dataloader), 100. * correct / total
 
-# 加载最佳模型权重
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = PyramidNet(dataset='cifar10', depth=110, alpha=200, num_classes=10).to(device)
 model.load_state_dict(torch.load("./models/CE_PyramidNet_Best.pth", map_location=device))
 
-# 定义损失函数
 criterion = nn.CrossEntropyLoss()
 
-# 测试模型
 test_loss, test_acc = test(model, test_loader, criterion, device)
 
-# 打印测试结果
 print(f"Test Loss: {test_loss:.4f}, Test Accuracy: {test_acc:.2f}%")

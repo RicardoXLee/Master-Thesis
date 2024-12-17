@@ -54,18 +54,14 @@ def validate(model, dataloader, criterion, device):
     return running_loss / len(dataloader), 100. * correct / total
 
 
-# Device configuration
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# Initialize PyramidNet
 pyramid_model = PyramidNet(dataset='cifar10', depth=110, alpha=200, num_classes=10).to(device)
 
-# Define loss and optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(pyramid_model.parameters(), lr=1e-3)
 scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)
 
-# Training loop
 num_epochs = 100
 best_val_loss = float('inf')
 best_model_path = "./models/CE_PyramidNet_Best.pth"

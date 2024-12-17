@@ -26,17 +26,13 @@ def test(model, dataloader, criterion, device):
                 )
     return running_loss / len(dataloader), 100. * correct / total
 
-# 加载最佳模型权重
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 vgg_model = VGG16().to(device)
 vgg_model.dense[-1] = nn.Linear(4096, 100).to(device)
 vgg_model.load_state_dict(torch.load("./models/100_CE_VGG_Best.pth", map_location=device))
 
-# 定义损失函数
 criterion = nn.CrossEntropyLoss()
 
-# 测试模型
 test_loss, test_acc = test(vgg_model, test_loader, criterion, device)
 
-# 打印测试结果
 print(f"Test Loss: {test_loss:.4f}, Test Accuracy: {test_acc:.2f}%")

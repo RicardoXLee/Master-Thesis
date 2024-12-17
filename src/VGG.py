@@ -1,5 +1,4 @@
 import torch.nn as nn
-from torchsummary import summary
 import torch
 
 class VGG16(nn.Module):
